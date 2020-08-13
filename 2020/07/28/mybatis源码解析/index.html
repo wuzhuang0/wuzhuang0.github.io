@@ -169,7 +169,7 @@
         <span title="发表于 2020.07.28"><i class="far fa-calendar-alt"></i> 2020.07.28</span>
       </div>
       <div class="post-meta-item updated">
-        <span title="更新于 2020.07.28"><i class="far fa-calendar-check"></i> 2020.07.28</span>
+        <span title="更新于 2020.08.13"><i class="far fa-calendar-check"></i> 2020.08.13</span>
       </div>
      
     
@@ -226,33 +226,12 @@
       </div>
         <div class="reward">
           
-  <div style="padding: 10px 0; margin-left: 20px; width: 90%; text-align: center;">
-    <div class="reward-content">
-        <ul id="donateBox" class="list pos-a">
-          
-           <li id="PayPal"><a href="https://paypal.me" target="_blank" title="贝宝">贝宝</a></li>
-            
-          
-            <li id="AliPay" title="支付宝"><img data-img="/img/alipay.jpg" onerror=this.onerror=null,this.src="/img/loading.gif"></img></li>
-               
-                 
-            <li id="WeChat" title="微信"><img date-img="/img/wechat.jpg" onerror=this.onerror=null,this.src="/img/loading.gif"></img></li>
-                      
-          </ul>
-        <div id="QRBox" class="pos-f left-100">
-          <div id="MainBox"></div>
-        </div>
-    </div>
-  </div>
-  
         </div>
     </div>
     
     <div class="post_tags">
       
         <i class="fas fa-tag"></i> <a href="/tags/%E6%BA%90%E7%A0%81/" class="tag">源码</a>
-      
-        <i class="fas fa-tag"></i> <a href="/tags/mybatis/" class="tag">mybatis</a>
       
     </div>
     <div class="post-nav">
@@ -271,35 +250,6 @@
 
     <div class="comments">
       
-    <div class="comments">
-        <script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
-        <div id="comment" class="vcomment" ></div>
-        <script>
-            var notify = 'false' == true ? true : false;
-            var verify = 'false' == true ? true : false;
-            var GUEST_INFO = ['nick','mail','link'];
-            var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-                return GUEST_INFO.indexOf(item) > -1
-            });
-            guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-            window.valine = new Valine({
-                el: '.vcomment',
-                notify: notify,
-                verify: verify,
-                appId: "",
-                appKey: "",
-                avatar: "mm",
-                placeholder: "Just go go",
-                guest_info: guest_info,
-                pageSize:'10',
-                recordIP: 'false',
-                serverURLs: "",
-                emojiCDN: "",
-                enableQQ: "true",
-            });
-        </script>
-    </div>
-
     </div>
 </article>
 
@@ -348,6 +298,8 @@
 
   
     <script src="/js/script.js"></script>
+  
+    <script src="/js/script2.js"></script>
   
     <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
   
@@ -418,8 +370,8 @@
 jQuery(document).ready(function () {
   var QRBox = $('#QRBox');
   var MainBox = $('#MainBox');
-  var AliPayQR = '/img/alipay.jpg';
-  var WeChanQR = '/img/wechat.jpg';
+  var AliPayQR = '';
+  var WeChanQR = '';
 
   function showQR(QR) {
     if (QR) {

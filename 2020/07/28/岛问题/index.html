@@ -228,25 +228,6 @@
       </div>
         <div class="reward">
           
-  <div style="padding: 10px 0; margin-left: 20px; width: 90%; text-align: center;">
-    <div class="reward-content">
-        <ul id="donateBox" class="list pos-a">
-          
-           <li id="PayPal"><a href="https://paypal.me" target="_blank" title="贝宝">贝宝</a></li>
-            
-          
-            <li id="AliPay" title="支付宝"><img data-img="/img/alipay.jpg" onerror=this.onerror=null,this.src="/img/loading.gif"></img></li>
-               
-                 
-            <li id="WeChat" title="微信"><img date-img="/img/wechat.jpg" onerror=this.onerror=null,this.src="/img/loading.gif"></img></li>
-                      
-          </ul>
-        <div id="QRBox" class="pos-f left-100">
-          <div id="MainBox"></div>
-        </div>
-    </div>
-  </div>
-  
         </div>
     </div>
     
@@ -351,6 +332,8 @@
   
     <script src="/js/script.js"></script>
   
+    <script src="/js/script2.js"></script>
+  
     <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
   
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.3/build/highlight.min.js"></script>
@@ -420,8 +403,8 @@
 jQuery(document).ready(function () {
   var QRBox = $('#QRBox');
   var MainBox = $('#MainBox');
-  var AliPayQR = '/img/alipay.jpg';
-  var WeChanQR = '/img/wechat.jpg';
+  var AliPayQR = '';
+  var WeChanQR = '';
 
   function showQR(QR) {
     if (QR) {
