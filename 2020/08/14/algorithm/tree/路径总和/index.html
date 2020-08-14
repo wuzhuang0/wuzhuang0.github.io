@@ -23,7 +23,7 @@
 
   
 
-  <title>内核启动 | 思考-总结</title>
+  <title>路径总和 | 思考-总结</title>
 
   
 
@@ -146,29 +146,29 @@
 
     
 <article id="post">
-  <div class="post-title">内核启动</div>
+  <div class="post-title">路径总和</div>
   
 <div class="post-meta">
     
     
       <div class="post-meta-item date">
-        <span title="发表于 2020.08.13"><i class="far fa-calendar-alt"></i> 2020.08.13</span>
+        <span title="发表于 2020.08.14"><i class="far fa-calendar-alt"></i> 2020.08.14</span>
       </div>
       <div class="post-meta-item updated">
-        <span title="更新于 2020.08.13"><i class="far fa-calendar-check"></i> 2020.08.13</span>
+        <span title="更新于 2020.08.14"><i class="far fa-calendar-check"></i> 2020.08.14</span>
       </div>
      
     
       <div class="post-meta-item categories">
         
-          <i class="fas fa-inbox article-meta__icon"></i> <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+          <i class="fas fa-inbox article-meta__icon"></i> <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
         
       </div>
      
     
      <div class="post-meta-item wordcount">
         
-          <i class="fas fa-pencil-alt"></i> <span class="post-count">246 字</span>
+          <i class="fas fa-pencil-alt"></i> <span class="post-count">147 字</span>
            
         
           <i class="far fa-clock"></i> <span class="post-count">1 分钟</span>
@@ -181,15 +181,17 @@
   
     <div id="toc" class="toc">
           <h1>目录</h1>
-          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内核引导过程"><span class="toc-number">1.</span> <span class="toc-text">内核引导过程</span></a></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-number">1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">2.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-number">3.</span> <span class="toc-text">题解</span></a></li></ol>
       </div>
     
   <div class="content">
-        <div><p>电脑在你按下电源开关的时候，就开始工作。主板发送信号给电源，而电源收到信号后会给<br>电脑供应合适的电量。一旦主板收到了电源备妥信号，它会尝试启动 CPU 。CPU 则复位寄&gt;存器的所有数据，并设置每个寄存器的预定值。</p>
-<a id="more"></a>
+        <div><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>leetcode 112<br>给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>给定如下二叉树，以及目标和 sum = 22</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">              <span class="number">5</span></span><br><span class="line">            / \</span><br><span class="line">           <span class="number">4</span>   <span class="number">8</span></span><br><span class="line">          /   / \</span><br><span class="line">         <span class="number">11</span>  <span class="number">13</span>  <span class="number">4</span></span><br><span class="line">        /  \      \</span><br><span class="line">       <span class="number">7</span>    <span class="number">2</span>      <span class="number">1</span></span><br><span class="line">                </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* public class TreeNode &#123;</span></span><br><span class="line"><span class="comment">* int val;</span></span><br><span class="line"><span class="comment">* TreeNode left;</span></span><br><span class="line"><span class="comment">* TreeNode right;</span></span><br><span class="line"><span class="comment">* TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment">* &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="内核引导过程"><a href="#内核引导过程" class="headerlink" title="内核引导过程"></a>内核引导过程</h2><p>电脑在你按下电源开关的时候，就开始工作。主板发送信号给电源，而电源收到信号后会给电脑供应合适的电量。一旦主板收到了电源备妥信号，它会尝试启动 CPU 。CPU 则复位寄存器的所有数据，并设置每个寄存器的预定值。</p>
-<p>如果你⾃⼰安装过操作系统，刚启动的时候，按某个组合键，显示器会弹出⼀个蓝⾊的界⾯。能够调整启动顺序的系统，就是我说的BIOS，然后我们就可以先执⾏它。</p>
+<p>返回 true, 因为存在目标和为 22 的根节点到叶子节点的路径 5-&gt;4-&gt;11-&gt;2。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathSum</span><span class="params">(TreeNode root, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 </div>
         
           <div class="post-copyright">
@@ -197,7 +199,7 @@
                       <span> 作者: wu zhuang</span>
                   </div>
                   <div class="copyright-item">
-                      <span> 链接: <a href="http://www.wuzhuang.top/2020/08/13/os/os-bios/">http://www.wuzhuang.top/2020/08/13/os/os-bios/</a></span>
+                      <span> 链接: <a href="http://www.wuzhuang.top/2020/08/14/algorithm/tree/%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8C/">http://www.wuzhuang.top/2020/08/14/algorithm/tree/%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8C/</a></span>
                   </div>
                   <div class="copyright-item">
                       <span> 声明: 本博客所有文章除特别声明外，均采用许可协议 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> 转载请注明出处！</span>
@@ -222,18 +224,16 @@
     
     <div class="post_tags">
       
-        <i class="fas fa-tag"></i> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="tag">操作系统</a>
+        <i class="fas fa-tag"></i> <a href="/tags/tree/" class="tag">tree</a>
+      
+        <i class="fas fa-tag"></i> <a href="/tags/BFS/" class="tag">BFS</a>
       
     </div>
     <div class="post-nav">
       
-        <div class="post-nav-prev post-nav-item">
-            <a href="/2020/08/13/algorithm/array/%E5%A4%9A%E6%95%B0%E4%B9%8B%E5%92%8C/" >多数之和<i class="fa fa-chevron-left"></i></a>
-        </div>
-      
       
         <div class="post-nav-next post-nav-item">
-            <a href="/2020/07/30/os/os-hardware/" >计算机组成<i class="fa fa-chevron-right"></i></a>
+            <a href="/2020/08/13/algorithm/array/%E5%A4%9A%E6%95%B0%E4%B9%8B%E5%92%8C/" >多数之和<i class="fa fa-chevron-right"></i></a>
         </div>
       
     </div>
