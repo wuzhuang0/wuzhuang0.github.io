@@ -23,7 +23,7 @@
 
   
 
-  <title>标签: 源码 | 思考-总结</title>
+  <title>二叉树遍历 | 思考-总结</title>
 
   
 
@@ -145,42 +145,131 @@
 </div>
 
     
-<div class="post-wrap archive">
+<article id="post">
+  <div class="post-title">二叉树遍历</div>
+  
+<div class="post-meta">
     
     
-        
-        
-        <div class="yearzodiac">
-                <div class="years">
-                  <h1>2020  <i class="symbolic-animals icon-rat"></i></h1>
-                </div>
-        </div>
-        
-        <li class="archive-item">
-            <a class="archive-item-link" href="/2020/08/18/source_code/spring/spring%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">spring源码解析</a>
-            <span class="archive-item-date">2020-08-18</span>
-        </li>
+      <div class="post-meta-item date">
+        <span title="发表于 2020.08.19"><i class="far fa-calendar-alt"></i> 2020.08.19</span>
+      </div>
+      <div class="post-meta-item updated">
+        <span title="更新于 2020.08.19"><i class="far fa-calendar-check"></i> 2020.08.19</span>
+      </div>
+     
     
+      <div class="post-meta-item categories">
         
+          <i class="fas fa-inbox article-meta__icon"></i> <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
         
-        <li class="archive-item">
-            <a class="archive-item-link" href="/2020/07/28/source_code/mybatis/mybatis%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">mybatis源码解析</a>
-            <span class="archive-item-date">2020-07-28</span>
-        </li>
+      </div>
+     
     
-    <div class="arc_pag">
-       <nav class="paginator">
-      
-            
-</nav>
-
-     </div>
+     <div class="post-meta-item wordcount">
+        
+          <i class="fas fa-pencil-alt"></i> <span class="post-count">25 字</span>
+           
+        
+          <i class="far fa-clock"></i> <span class="post-count">1 分钟</span>
+                               
+      </div>
+     
 </div>
 
 
+  
+    <div id="toc" class="toc">
+          <h1>目录</h1>
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树前序遍历"><span class="toc-number">1.</span> <span class="toc-text">二叉树前序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#递归"><span class="toc-number">1.1.</span> <span class="toc-text">递归</span></a></li></ol></li></ol>
+      </div>
+    
+  <div class="content">
+        <div><p>前序遍历  中序遍历  后序遍历  DFS  BFS</p>
+<a id="more"></a>
+
+<h2 id="二叉树前序遍历"><a href="#二叉树前序遍历" class="headerlink" title="二叉树前序遍历"></a>二叉树前序遍历</h2><h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span><br></code></pre></td></tr></table></figure>
+
+</div>
+        
+          <div class="post-copyright">
+                  <div class="copyright-item">
+                      <span> 作者: wu zhuang</span>
+                  </div>
+                  <div class="copyright-item">
+                      <span> 链接: <a href="http://www.wuzhuang.top/2020/08/19/algorithm/tree/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/">http://www.wuzhuang.top/2020/08/19/algorithm/tree/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/</a></span>
+                  </div>
+                  <div class="copyright-item">
+                      <span> 声明: 本博客所有文章除特别声明外，均采用许可协议 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> 转载请注明出处！</span>
+                  </div>
+          </div>
+        
+  </div>
+
+  <div class="share-reward">
+    <div class="share">
+        
+<div class="social-share" data-sites="facebook,twitter,wechat,weibo,qq"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script>
 
 
+      </div>
+        <div class="reward">
+          
+        </div>
+    </div>
+    
+    <div class="post_tags">
+      
+        <i class="fas fa-tag"></i> <a href="/tags/tree/" class="tag">tree</a>
+      
+        <i class="fas fa-tag"></i> <a href="/tags/BFS/" class="tag">BFS</a>
+      
+    </div>
+    <div class="post-nav">
+      
+      
+        <div class="post-nav-next post-nav-item">
+            <a href="/2020/08/14/algorithm/tree/%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8C/" >路径总和 leetcode 112<i class="fa fa-chevron-right"></i></a>
+        </div>
+      
+    </div>
 
+
+    <div class="comments">
+      
+    <div class="comments">
+        <script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+        <div id="comment" class="vcomment" ></div>
+        <script>
+            var notify = 'false' == true ? true : false;
+            var verify = 'false' == true ? true : false;
+            var GUEST_INFO = ['nick','mail','link'];
+            var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+                return GUEST_INFO.indexOf(item) > -1
+            });
+            guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+            window.valine = new Valine({
+                el: '.vcomment',
+                notify: notify,
+                verify: verify,
+                appId: "",
+                appKey: "",
+                avatar: "mm",
+                placeholder: "Just go go",
+                guest_info: guest_info,
+                pageSize:'10',
+                recordIP: 'false',
+                serverURLs: "",
+                emojiCDN: "",
+                enableQQ: "true",
+            });
+        </script>
+    </div>
+
+    </div>
+</article>
 
     
 <a id="gotop" href="javascript:" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
@@ -293,6 +382,46 @@
   
 
 
+
+<script>
+//reward
+jQuery(document).ready(function () {
+  var QRBox = $('#QRBox');
+  var MainBox = $('#MainBox');
+  var AliPayQR = '';
+  var WeChanQR = '';
+
+  function showQR(QR) {
+    if (QR) {
+      MainBox.css('background-image', 'url(' + QR + ')');
+    }
+    $('#donateBox').addClass('blur');
+    QRBox.fadeIn(300, function (argument) {
+      MainBox.addClass('showQR');
+    });
+  }
+
+  $('#donateBox>li').click(function (event) {
+    var thisID = $(this).attr('id');
+    if (thisID === 'AliPay') {
+      showQR(AliPayQR);
+    } else if (thisID === 'WeChat') {
+      showQR(WeChanQR);
+    }
+  });
+
+  MainBox.click(function (event) {
+    MainBox.removeClass('showQR').addClass('hideQR');
+    setTimeout(function (a) {
+      QRBox.fadeOut(300, function (argument) {
+        MainBox.removeClass('hideQR');
+      });
+      $('#DonateText,#donateBox,#github').removeClass('blur');
+    }, 600);
+
+  });
+});
+</script>
 
 
 <script>
