@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+    <link rel="icon" href="/img/timg.jpeg">
+  
+  
+      <meta name="author" content="wu zhuang">
+  
+  
+      <meta name="subtitle" content="wuzhuang">
+  
+  
+  
+  
+    <link rel="alternate" href="/atom.xml " title="思考-总结" type="application/atom+xml">
+  
+
+  
+
+  <title>生产者消费者模型 | 思考-总结</title>
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/style.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css">
+    
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.1.1/styles/github.css">
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+</html>
+    
+<header class="header">
+    <div class="title animated fadeInDown">
+        
+            <div class="logo">
+                
+                    <a href="/"><img data-src="/img/timg.jpeg" onerror=this.onerror=null,this.src="/img/loading.gif"></a>
+                    
+            </div>
+         
+    </div>
+    <div class="navbar animated fadeInDown">
+     
+    
+            <div class="social">
+                
+            </div>
+     
+   </div>
+</header>
+
+
+
+    
+<div class="nav index" style="height: 60px;">
+    <div class="title animated fadeInDown">
+        <div class="layui-container">
+            
+                <div class="nav-title"><a href="/" title="思考-总结">思考-总结</a></div>
+               
+            <div class="nav-list">
+                <button> <span class=""></span><span style="display: block;"></span><span class=""></span> </button>
+                <ul class="layui-nav" lay-filter="">
+                    
+                    <li class="layui-nav-item">
+                        <a href="/">
+                            <i class="fab fa-fort-awesome"></i>
+                            <span class="layui-nav-item-name">首页</span>
+                        </a>
+                    </li>
+                    
+                    <li class="layui-nav-item">
+                        <a href="/archives/">
+                            <i class="fas fa-archive"></i>
+                            <span class="layui-nav-item-name">归档</span>
+                        </a>
+                    </li>
+                    
+                    <li class="layui-nav-item">
+                        <a href="/tags/">
+                            <i class="fas fa-hashtag"></i>
+                            <span class="layui-nav-item-name">标签</span>
+                        </a>
+                    </li>
+                    
+                    <li class="layui-nav-item">
+                        <a href="/categories/">
+                            <i class="far fa-folder-open"></i>
+                            <span class="layui-nav-item-name">分类</span>
+                        </a>
+                    </li>
+                    
+                    <li class="layui-nav-item">
+                        <a href="/about/">
+                            <i class="fab fa-grav"></i>
+                            <span class="layui-nav-item-name">关于</span>
+                        </a>
+                    </li>
+                    
+                    <li class="layui-nav-item">
+                        <a href="/guestbook/">
+                            <i class="fab fa-telegram"></i>
+                            <span class="layui-nav-item-name">留言</span>
+                        </a>
+                    </li>
+                    
+                    <li class="layui-nav-item">
+                        
+                        <div id="dark" onclick="switchDarkMode()"></div>
+                        <script>
+                            if (localStorage.getItem('dark') === '1') {
+                                document.body.classList.add('dark');
+                            }
+                            document.getElementById('dark').innerHTML = document.querySelector("body").classList.contains("dark") ? "🌙" : "🌞";
+                        </script>
+                        
+                    </li>
+                    <span class="layui-nav-bar" style="left: 342px; top: 78px; width: 0px; opacity: 0;"></span>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+<article id="post">
+  <div class="post-title">生产者消费者模型</div>
+  
+<div class="post-meta">
+    
+    
+      <div class="post-meta-item date">
+        <span title="发表于 2020.09.08"><i class="far fa-calendar-alt"></i> 2020.09.08</span>
+      </div>
+      <div class="post-meta-item updated">
+        <span title="更新于 2020.09.08"><i class="far fa-calendar-check"></i> 2020.09.08</span>
+      </div>
+     
+    
+      <div class="post-meta-item categories">
+        
+          <i class="fas fa-inbox article-meta__icon"></i> <a href="/categories/%E5%B9%B6%E5%8F%91/">并发</a>
+        
+      </div>
+     
+    
+     <div class="post-meta-item wordcount">
+        
+          <i class="fas fa-pencil-alt"></i> <span class="post-count">743 字</span>
+           
+        
+          <i class="far fa-clock"></i> <span class="post-count">3 分钟</span>
+                               
+      </div>
+     
+</div>
+
+
+  
+    <div id="toc" class="toc">
+          <h1>目录</h1>
+          <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、简介"><span class="toc-number">1.</span> <span class="toc-text">一、简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、示例"><span class="toc-number">2.</span> <span class="toc-text">二、示例</span></a></li></ol>
+      </div>
+    
+  <div class="content">
+        <div><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>生产者和消费者问题是线程模型中的经典问题：生产者和消费者在同一时间段内共用同一个存储空间，生产者往存储空间中添加产品，消费者从存储空间中取走产品，当存储空间为空时，消费者阻塞，当存储空间满时，生产者阻塞。</p>
+<h3 id="二、示例"><a href="#二、示例" class="headerlink" title="二、示例"></a>二、示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AbstractStorage</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">consume</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">produce</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.LinkedList;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  生产者和消费者的问题</span><br><span class="hljs-comment"> *  wait、notify/notifyAll() 实现</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Storage1</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AbstractStorage</span> </span>&#123;<br>    <span class="hljs-comment">//仓库最大容量</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> MAX_SIZE = <span class="hljs-number">100</span>;<br>    <span class="hljs-comment">//仓库存储的载体</span><br>    <span class="hljs-keyword">private</span> LinkedList list = <span class="hljs-keyword">new</span> LinkedList();<br><br>    <span class="hljs-comment">//生产产品</span><br>  	<span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">produce</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;<br>        <span class="hljs-comment">//同步</span><br>        <span class="hljs-keyword">synchronized</span> (list)&#123;<br>            <span class="hljs-comment">//仓库剩余的容量不足以存放即将要生产的数量，暂停生产</span><br>            <span class="hljs-keyword">while</span>(list.size()+num &gt; MAX_SIZE)&#123;<br>                System.out.println(<span class="hljs-string">"【要生产的产品数量】:"</span> + num + <span class="hljs-string">"\t【库存量】:"</span><br>                        + list.size() + <span class="hljs-string">"\t暂时不能执行生产任务!"</span>);<br><br>                <span class="hljs-keyword">try</span> &#123;<br>                    <span class="hljs-comment">//条件不满足，生产阻塞</span><br>                    list.wait();<br>                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;<br><br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;num;i++)&#123;<br>                list.add(<span class="hljs-keyword">new</span> Object());<br>            &#125;<br><br>            System.out.println(<span class="hljs-string">"【已经生产产品数】:"</span> + num + <span class="hljs-string">"\t【现仓储量为】:"</span> + list.size());<br><br>            list.notifyAll();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">//消费产品</span><br>  	<span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">consume</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;<br>        <span class="hljs-keyword">synchronized</span> (list)&#123;<br><br>            <span class="hljs-comment">//不满足消费条件</span><br>            <span class="hljs-keyword">while</span>(num &gt; list.size())&#123;<br>                System.out.println(<span class="hljs-string">"【要消费的产品数量】:"</span> + num + <span class="hljs-string">"\t【库存量】:"</span><br>                        + list.size() + <span class="hljs-string">"\t暂时不能执行生产任务!"</span>);<br><br>                <span class="hljs-keyword">try</span> &#123;<br>                    list.wait();<br>                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;<br><br>            <span class="hljs-comment">//消费条件满足，开始消费</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;num;i++)&#123;<br>                list.remove();<br>            &#125;<br><br>            System.out.println(<span class="hljs-string">"【已经消费产品数】:"</span> + num + <span class="hljs-string">"\t【现仓储量为】:"</span> + list.size());<br><br>            list.notifyAll();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 生产者</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Producer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span></span>&#123;<br>    <span class="hljs-comment">//每次生产的数量</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> num ;<br><br>    <span class="hljs-comment">//所属的仓库</span><br>    <span class="hljs-keyword">public</span> AbstractStorage abstractStorage;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Producer</span><span class="hljs-params">(AbstractStorage abstractStorage)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.abstractStorage = abstractStorage;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.num = num;<br>    &#125;<br><br>    <span class="hljs-comment">// 线程run函数</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span></span><br><span class="hljs-function">    </span>&#123;<br>        produce(num);<br>    &#125;<br><br>    <span class="hljs-comment">// 调用仓库Storage的生产函数</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">produce</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span><br><span class="hljs-function">    </span>&#123;<br>        abstractStorage.produce(num);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 消费者</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Consumer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span></span>&#123;<br>    <span class="hljs-comment">// 每次消费的产品数量</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> num;<br><br>    <span class="hljs-comment">// 所在放置的仓库</span><br>    <span class="hljs-keyword">private</span> AbstractStorage abstractStorage1;<br><br>    <span class="hljs-comment">// 构造函数，设置仓库</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Consumer</span><span class="hljs-params">(AbstractStorage abstractStorage1)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">this</span>.abstractStorage1 = abstractStorage1;<br>    &#125;<br><br>    <span class="hljs-comment">// 线程run函数</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span></span><br><span class="hljs-function">    </span>&#123;<br>        consume(num);<br>    &#125;<br><br>    <span class="hljs-comment">// 调用仓库Storage的生产函数</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">consume</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span><br><span class="hljs-function">    </span>&#123;<br>        abstractStorage1.consume(num);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.num = num;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span></span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">// 仓库对象</span><br>        AbstractStorage abstractStorage = <span class="hljs-keyword">new</span> Storage1();<br><br>        <span class="hljs-comment">// 生产者对象</span><br>        Producer p1 = <span class="hljs-keyword">new</span> Producer(abstractStorage);<br>        Producer p2 = <span class="hljs-keyword">new</span> Producer(abstractStorage);<br>        Producer p3 = <span class="hljs-keyword">new</span> Producer(abstractStorage);<br>        Producer p4 = <span class="hljs-keyword">new</span> Producer(abstractStorage);<br>        Producer p5 = <span class="hljs-keyword">new</span> Producer(abstractStorage);<br>        Producer p6 = <span class="hljs-keyword">new</span> Producer(abstractStorage);<br>        Producer p7 = <span class="hljs-keyword">new</span> Producer(abstractStorage);<br><br>        <span class="hljs-comment">// 消费者对象</span><br>        Consumer c1 = <span class="hljs-keyword">new</span> Consumer(abstractStorage);<br>        Consumer c2 = <span class="hljs-keyword">new</span> Consumer(abstractStorage);<br>        Consumer c3 = <span class="hljs-keyword">new</span> Consumer(abstractStorage);<br><br>        <span class="hljs-comment">// 设置生产者产品生产数量</span><br>        p1.setNum(<span class="hljs-number">10</span>);<br>        p2.setNum(<span class="hljs-number">10</span>);<br>        p3.setNum(<span class="hljs-number">10</span>);<br>        p4.setNum(<span class="hljs-number">10</span>);<br>        p5.setNum(<span class="hljs-number">10</span>);<br>        p6.setNum(<span class="hljs-number">10</span>);<br>        p7.setNum(<span class="hljs-number">80</span>);<br><br>        <span class="hljs-comment">// 设置消费者产品消费数量</span><br>        c1.setNum(<span class="hljs-number">50</span>);<br>        c2.setNum(<span class="hljs-number">20</span>);<br>        c3.setNum(<span class="hljs-number">30</span>);<br><br>        <span class="hljs-comment">// 线程开始执行</span><br>        c1.start();<br>        c2.start();<br>        c3.start();<br><br>        p1.start();<br>        p2.start();<br>        p3.start();<br>        p4.start();<br>        p5.start();<br>        p6.start();<br>        p7.start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+</div>
+        
+          <div class="post-copyright">
+                  <div class="copyright-item">
+                      <span> 作者: wu zhuang</span>
+                  </div>
+                  <div class="copyright-item">
+                      <span> 链接: <a href="http://www.wuzhuang.top/2020/09/08/concurrent/producerAndConsumer/">http://www.wuzhuang.top/2020/09/08/concurrent/producerAndConsumer/</a></span>
+                  </div>
+                  <div class="copyright-item">
+                      <span> 声明: 本博客所有文章除特别声明外，均采用许可协议 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> 转载请注明出处！</span>
+                  </div>
+          </div>
+        
+  </div>
+
+  <div class="share-reward">
+    <div class="share">
+        
+<div class="social-share" data-sites="facebook,twitter,wechat,weibo,qq"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script>
+
+
+      </div>
+        <div class="reward">
+          
+        </div>
+    </div>
+    
+    <div class="post_tags">
+      
+        <i class="fas fa-tag"></i> <a href="/tags/%E5%B9%B6%E5%8F%91/" class="tag">并发</a>
+      
+        <i class="fas fa-tag"></i> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="tag">设计模式</a>
+      
+    </div>
+    <div class="post-nav">
+      
+      
+        <div class="post-nav-next post-nav-item">
+            <a href="/2020/09/08/concurrent/concurrent/" >原子类<i class="fa fa-chevron-right"></i></a>
+        </div>
+      
+    </div>
+
+
+    <div class="comments">
+      
+    <div class="comments">
+        <script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+        <div id="comment" class="vcomment" ></div>
+        <script>
+            var notify = 'false' == true ? true : false;
+            var verify = 'false' == true ? true : false;
+            var GUEST_INFO = ['nick','mail','link'];
+            var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+                return GUEST_INFO.indexOf(item) > -1
+            });
+            guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+            window.valine = new Valine({
+                el: '.vcomment',
+                notify: notify,
+                verify: verify,
+                appId: "",
+                appKey: "",
+                avatar: "mm",
+                placeholder: "Just go go",
+                guest_info: guest_info,
+                pageSize:'10',
+                recordIP: 'false',
+                serverURLs: "",
+                emojiCDN: "",
+                enableQQ: "true",
+            });
+        </script>
+    </div>
+
+    </div>
+</article>
+
+    
+<a id="gotop" href="javascript:" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+<script>
+    window.onscroll = function() {scrollFunction()};
+    function scrollFunction() {console.log(121);
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("gotop").style.display = "block";
+        } else {
+            document.getElementById("gotop").style.display = "none";
+        }
+    }
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+    
+
+
+
+
+
+
+    
+<div id="bottom-outer">
+    <div id="bottom-inner">
+        © 2020 <i class="fa fa-heart" id="heart"></i> wu zhuang 
+        <br>
+        Powered by 
+        <a href="http://hexo.io" target="_blank" rel="noopener">hexo</a> | Theme is <a href="https://github.com/a2396837/hexo-theme-blank/" target="_blank" rel="noopener">blank</a>
+        
+          <div class="icp-info">
+            
+          <a href="" target="_blank"> </a>
+        </div>
+        
+    </div>  
+  </div>
+
+
+<script src="https://www.layuicdn.com/layui-v2.5.6/layui.js"></script>
+
+
+  
+    <script src="/js/script.js"></script>
+  
+    <script src="/js/script2.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.3/build/highlight.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.7.0/dist/highlightjs-line-numbers.min.js"></script>
+  
+
+
+
+  <script>
+      window.lazyLoadOptions = {
+        elements_selector: 'img',
+        threshold: 0
+      }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script>
+
+
+
+  <script>
+    var images = $('img').not('.nav-logo img').not('.card img').not($('a>img')).not('.reward-content img')
+    images.each(function (i, o) {
+      var lazyloadSrc = $(o).attr('data-src') ? $(o).attr('data-src') : $(o).attr('src')
+      $(o).wrap(`<a href="${lazyloadSrc}" data-fancybox="group" data-caption="${$(o).attr('alt')}" class="fancybox"></a>`)
+    })
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+  <script>
+        $().fancybox({
+      selector: '[data-fancybox]',
+      loop: true,
+      transitionEffect: 'slide',
+      protect: true,
+      buttons: ['slideShow', 'fullScreen', 'thumbs', 'close']
+    })
+  </script>
+  
+
+
+
+<script>
+  var btntop = $('#gotop');
+  btntop.on('click', function (e) {
+    e.preventDefault();
+    $('html, body').animate({ scrollTop: 0 }, '300');
+  });
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@8.6.3/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true});</script>
+  <script>
+    $(document).ready(function () {
+      $('code.hljs').each(function (i, block) {
+        if ($.inArray(block.className, ['mermaid']) < 0) {
+          hljs.lineNumbersBlock(block);
+        }
+      });
+    });
+    </script>
+  
+
+
+
+<script>
+//reward
+jQuery(document).ready(function () {
+  var QRBox = $('#QRBox');
+  var MainBox = $('#MainBox');
+  var AliPayQR = '';
+  var WeChanQR = '';
+
+  function showQR(QR) {
+    if (QR) {
+      MainBox.css('background-image', 'url(' + QR + ')');
+    }
+    $('#donateBox').addClass('blur');
+    QRBox.fadeIn(300, function (argument) {
+      MainBox.addClass('showQR');
+    });
+  }
+
+  $('#donateBox>li').click(function (event) {
+    var thisID = $(this).attr('id');
+    if (thisID === 'AliPay') {
+      showQR(AliPayQR);
+    } else if (thisID === 'WeChat') {
+      showQR(WeChanQR);
+    }
+  });
+
+  MainBox.click(function (event) {
+    MainBox.removeClass('showQR').addClass('hideQR');
+    setTimeout(function (a) {
+      QRBox.fadeOut(300, function (argument) {
+        MainBox.removeClass('hideQR');
+      });
+      $('#DonateText,#donateBox,#github').removeClass('blur');
+    }, 600);
+
+  });
+});
+</script>
+
+
+<script>
+  var $table = $('.content table').not($('figure.highlight > table'))
+  $table.each(function () {
+    $(this).wrap('<div class="table-wrap"></div>')
+  })
+</script>
+
+
+
+
+
+</html>

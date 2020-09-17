@@ -23,7 +23,7 @@
 
   
 
-  <title>二叉树遍历 | 思考-总结</title>
+  <title>原子类 | 思考-总结</title>
 
   
 
@@ -146,29 +146,29 @@
 
     
 <article id="post">
-  <div class="post-title">二叉树遍历</div>
+  <div class="post-title">原子类</div>
   
 <div class="post-meta">
     
     
       <div class="post-meta-item date">
-        <span title="发表于 2020.08.19"><i class="far fa-calendar-alt"></i> 2020.08.19</span>
+        <span title="发表于 2020.09.08"><i class="far fa-calendar-alt"></i> 2020.09.08</span>
       </div>
       <div class="post-meta-item updated">
-        <span title="更新于 2020.08.25"><i class="far fa-calendar-check"></i> 2020.08.25</span>
+        <span title="更新于 2020.09.08"><i class="far fa-calendar-check"></i> 2020.09.08</span>
       </div>
      
     
       <div class="post-meta-item categories">
         
-          <i class="fas fa-inbox article-meta__icon"></i> <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+          <i class="fas fa-inbox article-meta__icon"></i> <a href="/categories/%E5%B9%B6%E5%8F%91/">并发</a>
         
       </div>
      
     
      <div class="post-meta-item wordcount">
         
-          <i class="fas fa-pencil-alt"></i> <span class="post-count">249 字</span>
+          <i class="fas fa-pencil-alt"></i> <span class="post-count">110 字</span>
            
         
           <i class="far fa-clock"></i> <span class="post-count">1 分钟</span>
@@ -181,19 +181,17 @@
   
     <div id="toc" class="toc">
           <h1>目录</h1>
-          <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#递归"><span class="toc-number">1.</span> <span class="toc-text">递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迭代"><span class="toc-number">2.</span> <span class="toc-text">迭代</span></a></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、AtomicInteger"><span class="toc-number">1.</span> <span class="toc-text">一、AtomicInteger</span></a></li></ol>
       </div>
     
   <div class="content">
-        <div><p>前序遍历  中序遍历  后序遍历  DFS  BFS</p>
-<a id="more"></a>
+        <div><a id="more"></a>
 
-<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>​              1</p>
-<p>​        2         3</p>
-<p>   4        5  6       7</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BinaryTreeTraversal</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> List&lt;TreeNode&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 前序遍历  1 2 4 5 3 6 7</span><br><span class="hljs-comment">     * 先访问根节点 -&gt;左字树  -&gt;右子树</span><br><span class="hljs-comment">     */</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">preOrder</span><span class="hljs-params">(TreeNode root)</span> </span>&#123;<br>        list.add(root);<br>        <span class="hljs-keyword">if</span> (root.left != <span class="hljs-keyword">null</span>) &#123;<br>            preOrder(root.left);<br>        &#125;<br>        <span class="hljs-keyword">if</span> (root.rigth != <span class="hljs-keyword">null</span>) &#123;<br>            preOrder(root.right);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 中序遍历 4 2 5 1 6 3 7</span><br><span class="hljs-comment">     * 先访问左子树 -&gt;根结点  -&gt;右子树</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">inOrder</span><span class="hljs-params">(TreeNode root)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (root.left != <span class="hljs-keyword">null</span>) &#123;<br>            inOrder(root.left);<br>        &#125;<br>        list.add(root);<br>        <span class="hljs-keyword">if</span> (root.right != <span class="hljs-keyword">null</span>) &#123;<br>            preOrder(root.right);<br>        &#125;<br>    &#125;<br>  <br>  	<span class="hljs-comment">/**</span><br><span class="hljs-comment">  	 * 后续遍历 4 5 2 6 7 3 1</span><br><span class="hljs-comment">  	 * 先访问左子树 -&gt;右子树  -&gt;根结点</span><br><span class="hljs-comment">  	 */</span><br>  	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postOrder</span><span class="hljs-params">(TreeNode root)</span> </span>&#123;<br>      <span class="hljs-keyword">if</span> (root.left != <span class="hljs-keyword">null</span>) &#123;<br>        	post(root.left);<br>      &#125;<br>      <span class="hljs-keyword">if</span> (root.)<br>    &#125;    <br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="一、AtomicInteger"><a href="#一、AtomicInteger" class="headerlink" title="一、AtomicInteger"></a>一、AtomicInteger</h3><p>构造方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> value;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AtomicInteger</span><span class="hljs-params">(<span class="hljs-keyword">int</span> initialValue)</span> </span>&#123;<br>  	value = initialValue;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AtomicInteger</span><span class="hljs-params">()</span> </span>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BinaryTreeTraversal</span> </span>&#123;<br>  	<span class="hljs-keyword">private</span> List&lt;TreeNode&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>  	<span class="hljs-comment">// 先序遍历</span><br>  	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">preOrder</span><span class="hljs-params">(TreeNode root)</span> </span>&#123;<br>      	Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;&gt;();<br>      	stack.push(root);<br>      	<span class="hljs-keyword">while</span>(!stack.isEmpty()) &#123;<br>          	TreeNode treeNode = stack.pop();<br>          	list.add(treeNode);<br>          	<span class="hljs-keyword">if</span> (treeNode.left != <span class="hljs-keyword">null</span>) &#123;<br>              stack.push(treeNode.left);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>普通方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Unsafe unsafe = Unsafe.getUnsafe();<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> valueOffset;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;<br>  	<span class="hljs-keyword">return</span> value;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(<span class="hljs-keyword">int</span> newValue)</span> </span>&#123;<br>  	value = newValue;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">compareAndSet</span><span class="hljs-params">(<span class="hljs-keyword">int</span> expect, <span class="hljs-keyword">int</span> update)</span> </span>&#123;<br>  	<span class="hljs-keyword">return</span> unsafe.compareAndSwapInt(<span class="hljs-keyword">this</span>, valueOffset, expect, update)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAndIncrement</span><span class="hljs-params">()</span> </span>&#123;<br>  	<span class="hljs-keyword">return</span> unsafe.getAndAddInt(<span class="hljs-keyword">this</span>, valueOffset, <span class="hljs-number">1</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAndDecrement</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> unsafe.getAndAddInt(<span class="hljs-keyword">this</span>, valueOffset, -<span class="hljs-number">1</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">incrementAndGet</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> unsafe.getAndAddInt(<span class="hljs-keyword">this</span>, valueOffset, <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 </div>
         
@@ -202,7 +200,7 @@
                       <span> 作者: wu zhuang</span>
                   </div>
                   <div class="copyright-item">
-                      <span> 链接: <a href="http://www.wuzhuang.top/2020/08/19/algorithm/tree/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/">http://www.wuzhuang.top/2020/08/19/algorithm/tree/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/</a></span>
+                      <span> 链接: <a href="http://www.wuzhuang.top/2020/09/08/concurrent/concurrent/">http://www.wuzhuang.top/2020/09/08/concurrent/concurrent/</a></span>
                   </div>
                   <div class="copyright-item">
                       <span> 声明: 本博客所有文章除特别声明外，均采用许可协议 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> 转载请注明出处！</span>
@@ -227,20 +225,18 @@
     
     <div class="post_tags">
       
-        <i class="fas fa-tag"></i> <a href="/tags/tree/" class="tag">tree</a>
-      
-        <i class="fas fa-tag"></i> <a href="/tags/BFS/" class="tag">BFS</a>
+        <i class="fas fa-tag"></i> <a href="/tags/%E5%B9%B6%E5%8F%91/" class="tag">并发</a>
       
     </div>
     <div class="post-nav">
       
         <div class="post-nav-prev post-nav-item">
-            <a href="/2020/08/25/algorithm/tree/%E7%BA%A2%E9%BB%91%E6%A0%91/" >红黑树<i class="fa fa-chevron-left"></i></a>
+            <a href="/2020/09/08/concurrent/producerAndConsumer/" >生产者消费者模型<i class="fa fa-chevron-left"></i></a>
         </div>
       
       
         <div class="post-nav-next post-nav-item">
-            <a href="/2020/08/14/algorithm/tree/%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8C/" >路径总和 leetcode 112<i class="fa fa-chevron-right"></i></a>
+            <a href="/2020/08/13/algorithm/array/%E5%A4%9A%E6%95%B0%E4%B9%8B%E5%92%8C/" >多数之和<i class="fa fa-chevron-right"></i></a>
         </div>
       
     </div>
